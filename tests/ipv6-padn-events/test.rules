@@ -1,0 +1,2 @@
+alert ipv6 any any -> any any (msg:"SURICATA IPv6 PadN option with non-zero data"; decode-event:ipv6.nonzero_padn; classtype:protocol-command-decode; sid:2200131; rev:1;)
+alert ipv6 any any -> any any (msg:"SURICATA IPv6 padding longer than 7 octets"; decode-event:ipv6.padding_too_long; classtype:protocol-command-decode; sid:2200132; rev:1;)

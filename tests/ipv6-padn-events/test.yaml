@@ -1,0 +1,40 @@
+requires:
+  min-version: 9
+
+args:
+  - -k none
+
+checks:
+  # 1: Destination Options, PadN with zero data: no new event
+  # 2: Destination Options, PadN with non-zero data
+  # 3: Hop-by-Hop, Router Alert followed by PadN with 8 octets of non-zero
+  #    data (10 padding octets, so padding_too_long fires too)
+  # 4: Destination Options, 12 octets of zero padding
+  - filter:
+      count: 2
+      match:
+        event_type: alert
+        alert.signature_id: 2200131
+  - filter:
+      count: 1
+      match:
+        event_type: alert
+        pcap_cnt: 3
+        alert.signature_id: 2200131
+  - filter:
+      count: 2
+      match:
+        event_type: alert
+        alert.signature_id: 2200132
+  - filter:
+      count: 1
+      match:
+        event_type: alert
+        pcap_cnt: 4
+        alert.signature_id: 2200132
+  - filter:
+      count: 0
+      match:
+        event_type: alert
+        pcap_cnt: 1
+        alert.signature_id: 2200131
